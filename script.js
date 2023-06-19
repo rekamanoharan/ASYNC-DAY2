@@ -1,3 +1,4 @@
+
 const loadCountryAPI = () =>{
     fetch('https://restcountries.com/v3.1/all')
     .then(res => res.json())
@@ -30,6 +31,8 @@ const getCountry = (country) =>{
     </div>`
     
 }
+
+
 function weatherData(lat,lon){
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=d61373bd0b8df15a61886d5e16d5b258`)
 .then((response)=>{
