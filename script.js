@@ -1,24 +1,3 @@
-// async function getCountriesData() {
-//       try {
-//         const url = "https://restcountries.com/v3/all";
-//         const response = await fetch(url);
-//         const result = await response.json();
-//         printData(result);
-//       } catch (error) {
-//         console.log("ERROR", error);
-//       }
-//     }
-    
-//     function printData(data = []) {
-//       if (data.length > 0) {
-//        const countriesHTML= data.forEach((_d) => getCountry(_d));
-//         const container=document.getElementById("countries");
-//         container.innerHTML=countriesHTML.join('')
-//       }
-//     }
-    
-//     getCountriesData();
-var button= document.querySelector('#submit');
 const loadCountryAPI = () =>{
     fetch('https://restcountries.com/v3.1/all')
     .then(res => res.json())
@@ -34,27 +13,33 @@ const displayCountries = countries =>{
 
 
 const getCountry = (country) =>{
-    console.log(country)
+    // console.log(country)
     return `
-    <div class="card">
-      <h5>${country.name.common}</h5>
-        <img src="${country.flags.png}">
-        
-        <hr>
-        <h4>Capital: ${country.capital}</h4>
-        <h4>Region: ${country.region}</h4>
-        <h4>Country Code: ${country.cca3}</h4>
-        <a href="https://api.openweathermap.org/data/2.5/weather?q=${country.name.common}&appid=d61373bd0b8df15a61886d5e16d5b258" class="btn btn-primary id="submit">Click for weather</a>
-               </div>`
+    <div class="card col-lg-4 col-sm-12 col-md-4 col">
+        <div class="card-header">
+            <h5>${country.name.common}</h5>
+           
+        </div>
+        <img src="${country.flags.png}" />
+        <div class="card-body">
+            <div class="card-text"><h4>Capital:${country.capital}</h4></div>
+            <div class="card-text"><h4>Region:${country.region}</h4></div>
+            <div class="card-text"><h4>Country Code:${country.cca3}</h4></div>
+        </div>
+        <button class="btn btn-primary" onclick="weatherData(${country.latlng[0]},${country.latlng[1]})">Click for Weather</button>
+    </div>`
     
 }
+function weatherData(lat,lon){
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=d61373bd0b8df15a61886d5e16d5b258`)
+.then((response)=>{
+    console.log(response)
+    return response.json()
+}).then((response)=>{
+    console.log(response)
+    alert('temperature: '+ JSON.stringify(response.main.temp)+ '\n' + 'humidity: '+ JSON.stringify(response.main.humidity)+ '\n' + 'Pressure: '+ JSON.stringify(response.main.pressure))
+    // alert("temperature:",response.main.temp)
 
-// button.addEventListener('click', function(){
-//     const weatherCountry = (country) =>{
-//         console.log(country)
-//     fetch('https://api.openweathermap.org/data/2.5/weather?q={country.capital}&appid=d61373bd0b8df15a61886d5e16d5b258')
-//     .then(response => response.json())
-//     .then(data =>console.log(data))
-//     }
-// });
+})}
+
 loadCountryAPI()
